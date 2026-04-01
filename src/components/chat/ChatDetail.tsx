@@ -36,7 +36,7 @@ export function ChatDetail({ room, onBack }: { room: Room; onBack: () => void })
     try {
       const data = await api.getMessages(room.id);
       setMessages(data.messages.reverse());
-    } catch {} finally {
+    } catch { /* silently ignore */ } finally {
       setLoading(false);
     }
   }, [room.id]);

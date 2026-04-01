@@ -32,7 +32,7 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
       try {
         const msg = JSON.parse(e.data) as WsMessage;
         setLastMessage(msg);
-      } catch {}
+      } catch { /* silently ignore */ }
     };
     ws.onerror = () => ws.close();
   }, [token]);

@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
-    try { await api.signOut(); } catch {}
+    try { await api.signOut(); } catch { /* silently ignore */ }
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);

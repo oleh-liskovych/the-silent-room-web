@@ -22,7 +22,7 @@ export function Profile() {
       await refreshUser();
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
-    } catch {} finally {
+    } catch { /* silently ignore */ } finally {
       setSaving(false);
     }
   };

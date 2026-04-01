@@ -20,7 +20,7 @@ export function ContactsList({ onInvite }: { onInvite: () => void }) {
       setContacts(c);
       setIncoming(i);
       setOutgoing(o);
-    } catch {} finally {
+    } catch { /* silently ignore */ } finally {
       setLoading(false);
     }
   }, []);
@@ -31,14 +31,14 @@ export function ContactsList({ onInvite }: { onInvite: () => void }) {
     try {
       await api.respondToInvitation(id, accept);
       loadAll();
-    } catch {}
+    } catch { /* silently ignore */ }
   };
 
   const handleRemove = async (id: string) => {
     try {
       await api.removeContact(id);
       loadAll();
-    } catch {}
+    } catch { /* silently ignore */ }
   };
 
   if (loading) {

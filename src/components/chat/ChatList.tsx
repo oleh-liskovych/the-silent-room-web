@@ -40,7 +40,7 @@ export function ChatList({ onSelectRoom }: { onSelectRoom: (room: Room) => void 
     try {
       const data = await api.getRooms();
       setRooms(data);
-    } catch {} finally {
+    } catch { /* silently ignore */ } finally {
       setLoading(false);
     }
   }, []);
