@@ -7,6 +7,8 @@ app = 'the-silent-room-web'
 primary_region = 'ams'
 
 [build]
+  [build.args]
+    VITE_API_URL = "https://the-silent-room-backend.fly.dev"
 
 [http_service]
   internal_port = 80
