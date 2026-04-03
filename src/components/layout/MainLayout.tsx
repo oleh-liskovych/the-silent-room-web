@@ -37,7 +37,7 @@ export function MainLayout() {
     <div className="h-screen flex flex-col">
       <div className="flex-1 overflow-hidden">
         {activeTab === 'chats' && <ChatList onSelectRoom={handleSelectRoom} />}
-        {activeTab === 'contacts' && <ContactsList onInvite={() => setScreen('invite')} />}
+        {activeTab === 'contacts' && <ContactsList onInvite={() => setScreen('invite')} onOpenChat={handleSelectRoom} />}
         {activeTab === 'profile' && <Profile />}
       </div>
       <BottomNav active={activeTab} onChange={setActiveTab} />

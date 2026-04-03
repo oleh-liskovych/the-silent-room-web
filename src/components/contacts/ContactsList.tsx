@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { UserPlus, Check, X, Clock, UserMinus } from 'lucide-react';
+import { UserPlus, Check, X, Clock, UserMinus, MessageCircle } from 'lucide-react';
 import { api } from '../../services/api';
 import { Avatar } from '../layout/Avatar';
-import type { Contact } from '../../types';
+import type { Contact, Room } from '../../types';
 
-export function ContactsList({ onInvite }: { onInvite: () => void }) {
+export function ContactsList({ onInvite, onOpenChat }: { onInvite: () => void; onOpenChat: (room: Room) => void }) {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [incoming, setIncoming] = useState<Contact[]>([]);
   const [outgoing, setOutgoing] = useState<Contact[]>([]);
@@ -38,6 +38,13 @@ export function ContactsList({ onInvite }: { onInvite: () => void }) {
     try {
       await api.removeContact(id);
       loadAll();
+    } catch { /* silently ignore */ }
+  };
+
+  const handleOpenChat = async (contact: Contact) => {
+    try {
+      const room = await api.getDirectRoom(contact.contactId);
+      onOpenChat(room);
     } catch { /* silently ignore */ }
   };
 
@@ -120,11 +127,23 @@ export function ContactsList({ onInvite }: { onInvite: () => void }) {
           ) : (
             contacts.map(c => (
               <div key={c.id} className="flex items-center gap-3 px-4 py-3 group">
-                <Avatar name={c.contactDisplayName} size="md" />
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-900 dark:text-white truncate">{c.contactDisplayName}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">@{c.contactUsername}</p>
-                </div>
+                <button
+                  onClick={() => handleOpenChat(c)}
+                  className="flex items-center gap-3 flex-1 min-w-0 text-left"
+                >
+                  <Avatar name={c.contactDisplayName} size="md" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 dark:text-white truncate">{c.contactDisplayName}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">@{c.contactUsername}</p>
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleOpenChat(c)}
+                  className="p-2 text-indigo-400 dark:text-indigo-500 opacity-0 group-hover:opacity-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                  title="Send message"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                </button>
                 <button
                   onClick={() => handleRemove(c.id)}
                   className="p-2 text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 hover:text-red-500 dark:hover:text-red-400 transition"
