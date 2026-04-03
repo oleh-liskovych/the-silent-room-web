@@ -112,6 +112,10 @@ class ApiService {
     return this.request<import('../types').Room>(`/api/rooms/${id}`, { headers: this.getHeaders() });
   }
 
+  async getDirectRoom(userId: string) {
+    return this.request<import('../types').Room>(`/api/rooms/direct/${userId}`, { headers: this.getHeaders() });
+  }
+
   async getMessages(roomId: string, page = 1, pageSize = 50) {
     return this.request<import('../types').MessagePage>(
       `/api/rooms/${roomId}/messages?page=${page}&pageSize=${pageSize}`,
